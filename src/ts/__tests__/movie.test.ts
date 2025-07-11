@@ -49,3 +49,19 @@ describe('Cart Integration', () => {
     expect(cart.getAll()).toContain(movie);
   });
 });
+
+describe('Movie duration formatting', () => {
+  test('should format numeric duration', () => {
+    const movie = new Movie('Test', 2023, 'RU', 'Test', 'Test', 137);
+    expect(movie.displayInfo()).toContain('137 мин. / 02:17');
+  });
+});
+
+describe('Cart integration', () => {
+  test('should add movie to cart', () => {
+    const cart = new Cart();
+    const movie = new Movie(...);
+    cart.add(movie);
+    expect(cart.getAll()).toContain(movie);
+  });
+});
