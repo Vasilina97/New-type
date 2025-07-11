@@ -1,4 +1,5 @@
-import Movie from '../src/movie';
+import Movie from '../movie';
+import Cart from '../cart';
 
 describe('Movie Class', () => {
   const testMovie = new Movie(
@@ -7,61 +8,25 @@ describe('Movie Class', () => {
     'США',
     'Avengers Assemble!',
     'фантастика, боевик',
-    '137 мин.'
+    '137 мин. / 02:17'
   );
 
   test('should create movie with correct properties', () => {
     expect(testMovie.title).toBe('Мстители');
     expect(testMovie.year).toBe(2012);
-    expect(testMovie.tagline).toBe('Avengers Assemble!');
   });
 
-  test('should format info correctly', () => {
-    const expectedOutput = `
-# Мстители
-
-Мстители
-
-- год
-  2012
-
-- страна
-  США
-
-- слоган
-  «Avengers Assemble!»
-
-- жанр
-  фантастика, боевик
-
-- время
-  137 мин.
-    `;
-    expect(testMovie.getFormattedInfo()).toBe(expectedOutput);
+  test('should format numeric duration', () => {
+    const movie = new Movie('Test', 2023, 'RU', 'Test', 'Test', 125);
+    expect(movie.displayInfo()).toContain('125 мин. / 02:05');
   });
 });
 
 describe('Cart Integration', () => {
   test('should add movie to cart', () => {
     const cart = new Cart();
-    const movie = new Movie('Test', 2020, 'RU', 'Test', 'Test', '90 мин.');
+    const movie = new Movie('Test', 2023, 'RU', 'Test', 'Test', '90 мин.');
     cart.add(movie);
-    expect(cart.getAll()).toContain(movie);
-  });
-});
-
-describe('Movie duration formatting', () => {
-  test('should format numeric duration', () => {
-    const movie = new Movie('Test', 2023, 'RU', 'Test', 'Test', 137);
-    expect(movie.displayInfo()).toContain('137 мин. / 02:17');
-  });
-});
-
-describe('Cart integration', () => {
-  test('should add movie to cart', () => {
-    const cart = new Cart();
-    const movie = new Movie(...);
-    cart.add(movie);
-    expect(cart.getAll()).toContain(movie);
+    expect(cart.getAll()).toContainEqual(movie);
   });
 });

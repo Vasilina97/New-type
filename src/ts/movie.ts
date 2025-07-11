@@ -1,46 +1,3 @@
-export interface IMovie {
-  title: string;
-  year: number;
-  country: string;
-  tagline: string;
-  genre: string;
-  duration: string;
-}
-
-export default class Movie implements IMovie {
-  constructor(
-    public title: string,
-    public year: number,
-    public country: string,
-    public tagline: string,
-    public genre: string,
-    public duration: string
-  ) {}
-
-  getFormattedInfo(): string {
-    return `
-# ${this.title}
-
-${this.title}
-
-- год
-  ${this.year}
-
-- страна
-  ${this.country}
-
-- слоган
-  «${this.tagline}»
-
-- жанр
-  ${this.genre}
-
-- время
-  ${this.duration}
-    `;
-  }
-}
-
 export default class Movie {
   constructor(
     public title: string,
@@ -51,10 +8,13 @@ export default class Movie {
     public duration: string | number
   ) {}
 
-  getFormattedDuration(): string {
-    return typeof this.duration === 'number' 
-      ? `${this.duration} мин. / ${Math.floor(this.duration/60)}:${this.duration%60}` 
-      : this.duration;
+  private formatDuration(): string {
+    if (typeof this.duration === 'number') {
+      const hours = Math.floor(this.duration / 60);
+      const mins = this.duration % 60;
+      return `${this.duration} мин. / ${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    }
+    return this.duration;
   }
 
   displayInfo(): string {
@@ -67,7 +27,7 @@ export default class Movie {
 - страна    ${this.country}
 - слоган    «${this.tagline}»
 - жанр    ${this.genre}
-- время    ${this.getFormattedDuration()}
+- время    ${this.formatDuration()}
     `;
   }
 }
